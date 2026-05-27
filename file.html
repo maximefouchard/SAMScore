@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Calculateur SAMScore</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:20px;color:#111}
+  .card{max-width:760px;margin:0 auto;padding:20px;border:1px solid #ddd;border-radius:8px;background:#fff}
+  h1{font-size:20px;margin-bottom:8px}
+  fieldset{border:1px solid #eee;padding:12px;margin:12px 0;border-radius:6px}
+  legend{font-weight:600}
+  label{display:block;margin:8px 0}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .small{font-size:13px;color:#555}
+  .btn{display:inline-block;padding:10px 16px;background:#0074cc;color:#fff;border-radius:6px;border:0;cursor:pointer}
+  .btn:disabled{opacity:0.6;cursor:not-allowed}
+  .result{margin-top:16px;padding:14px;border-radius:8px}
+  .result.positive{background:#fff4f2;border:1px solid #ffb3a7;color:#8a1300}
+  .result.negative{background:#f2fff7;border:1px solid #b0e6c6;color:#036b1a}
+  .note{font-size:13px;color:#444;margin-top:8px}
+  .phototype-help{background:#f8f9fb;border:1px solid #e6eef7;padding:10px;border-radius:6px;margin-top:8px}
+  .phototype-help dt{font-weight:700;margin-top:6px}
+  .phototype-help dd{margin:4px 0 6px 0;color:#333}
+</style>
+</head>
+<body>
+<div class="card" role="main">
+  <h1>Calculateur SAMScore</h1>
+  <p class="small">Répondez au questionnaire puis cliquez sur "Calculer".</p>
+
+  <form id="samscore-form" autocomplete="off" onsubmit="return false;">
+    <fieldset>
+      <legend>1. Avez-vous plus de 60 ans ?</legend>
+      <label><input type="radio" name="q1" value="oui"> Oui</label>
+      <label><input type="radio" name="q1" value="non"> Non</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Avez-vous des taches de rousseur ?</legend>
+      <label><input type="radio" name="q2" value="oui"> Oui</label>
+      <label><input type="radio" name="q2" value="non"> Non</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Combien de grains de beauté avez-vous approximativement sur l’ensemble des 2 bras ?</legend>
+      <label><input type="radio" name="q3" value="plus"> Plus de 20</label>
+      <label><input type="radio" name="q3" value="moins"> Moins ou égal à 20</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Dans quel phototype vous classeriez-vous ?</legend>
+      <label><input type="radio" name="q4" value="I"> Phototype I</label>
+      <label><input type="radio" name="q4" value="II"> Phototype II</label>
+      <label><input type="radio" name="q4" value="III"> Phototype III</label>
+      <label><input type="radio" name="q4" value="IV"> Phototype IV</label>
+      <label><input type="radio" name="q4" value="V"> Phototype V</label>
+      <label><input type="radio" name="q4" value="VI"> Phototype VI</label>
+
+      <div class="phototype-help" aria-hidden="false" role="region" aria-label="Aide phototypes">
+        <p style="margin:0;font-weight:600">Descriptions des phototypes (aide pour choisir) :</p>
+        <dl>
+          <dt>Phototype I</dt>
+          <dd>Peau très claire, cheveux blonds ou roux, yeux clairs (bleus/verts). Ne bronze pas ; coups de soleil constants.</dd>
+          <dt>Phototype II</dt>
+          <dd>Peau claire, cheveux clairs ou châtains, yeux clairs. Bronzage faible ; coups de soleil fréquents.</dd>
+          <dt>Phototype III</dt>
+          <dd>Peau légèrement mate, cheveux châtains ou bruns, yeux bruns ou parfois clairs. Bronzage progressif.</dd>
+          <dt>Phototype IV</dt>
+          <dd>Peau mate, cheveux foncés, yeux foncés. Bronzage facile, rares coups de soleil.</dd>
+          <dt>Phototype V</dt>
+          <dd>Peau brun foncée, cheveux noirs, yeux noirs. Bronzage très facile, très rares coups de soleil.</dd>
+          <dt>Phototype VI</dt>
+          <dd>Peau noire, cheveux noirs, yeux noirs. Presque jamais de coups de soleil.</dd>
+        </dl>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>5. Au cours de votre enfance/adolescence, avez-vous déjà pris des coups de soleil sévères (rouges, douloureux, avec cloques) ?</legend>
+      <label><input type="radio" name="q5" value="oui"> Oui</label>
+      <label><input type="radio" name="q5" value="non"> Non</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>6. Avez-vous vécu plus d’un an dans un pays à fort ensoleillement ? (ex. Afrique, Moyen-Orient, DOM-TOM, Australie, Amérique centrale)</legend>
+      <label><input type="radio" name="q6" value="oui"> Oui</label>
+      <label><input type="radio" name="q6" value="non"> Non</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>7. Avez-vous déjà eu au cours de votre vie un mélanome ?</legend>
+      <label><input type="radio" name="q7" value="oui"> Oui</label>
+      <label><input type="radio" name="q7" value="non"> Non</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>8. Un membre de votre famille proche (parent, enfant, frère/sœur) a-t-il déjà eu un mélanome ?</legend>
+      <label><input type="radio" name="q8" value="oui"> Oui</label>
+      <label><input type="radio" name="q8" value="non"> Non</label>
+      <label><input type="radio" name="q8" value="ne_sais_pas"> Ne sais pas</label>
+    </fieldset>
+
+    <div style="margin-top:8px">
+      <button class="btn" id="calcBtn" type="button">Calculer</button>
+      <button class="btn" id="resetBtn" type="button" style="background:#666;margin-left:8px">Réinitialiser</button>
+    </div>
+
+    <div id="result" aria-live="polite"></div>
+    <p class="note"> </p>
+  </form>
+</div>
+
+<script>
+(function(){
+  const getValue = (name) => {
+    const el = document.querySelector('input[name="'+name+'"]:checked');
+    return el ? el.value : null;
+  };
+
+  function countRiskFactors(ans){
+    let c = 0;
+    if(ans.q1 === 'oui') c++;             // âge >=60
+    if(ans.q2 === 'oui') c++;             // taches de rousseur
+    if(ans.q3 === 'plus') c++;            // >20 grains de beauté
+    if(ans.q4 === 'I' || ans.q4 === 'II') c++; // phototype I ou II
+    if(ans.q5 === 'oui') c++;             // coups de soleil sévères
+    if(ans.q6 === 'oui') c++;             // vécu pays très ensoleillés
+    if(ans.q7 === 'oui') c++;             // antécédent personnel mélanome
+    return c;
+  }
+
+  function evaluate(ans){
+    const facteurCount = countRiskFactors(ans);
+    const rule1 = facteurCount >= 3;
+    const rule2 = (ans.q1 === 'non') && (ans.q3 === 'plus');
+    const rule3 = (ans.q1 === 'oui') && (ans.q2 === 'oui');
+    const positive = rule1 || rule2 || rule3;
+    return {positive, rule1, rule2, rule3, facteurCount};
+  }
+
+  function renderResult(res){
+    const div = document.getElementById('result');
+    div.innerHTML = '';
+    if(res.positive){
+      div.className = 'result positive';
+      div.innerHTML = '<strong>Résultat : SAMScore positif — risque élevé</strong><p>Nous vous recommandons de prendre rendez-vous pour un examen dermatologique.</p>';
+    } else {
+      div.className = 'result negative';
+      div.innerHTML = '<strong>Résultat : SAMScore négatif — risque faible</strong><p>Une consultation n’est pas nécessaire. Surveillez votre peau et consultez votre médécin généraliste si vous remarquez un changement ou avez des inquiétudes.</p>';
+    }
+
+    const details = document.createElement('div');
+    details.className = 'small';
+    details.style.marginTop = '8px';
+    details.innerHTML = 'Facteurs de risque comptés (parmi 7) : ' + res.facteurCount + '.';
+    div.appendChild(details);
+
+    const rules = document.createElement('div');
+    rules.className = 'small';
+    rules.style.marginTop = '6px';
+    rules.innerHTML = 'Règles déclenchées : ' +
+      (res.rule1 ? '1 ' : '') +
+      (res.rule2 ? '2 ' : '') +
+      (res.rule3 ? '3 ' : (res.rule1||res.rule2 ? '' : 'Aucune'));
+    div.appendChild(rules);
+  }
+
+  document.getElementById('calcBtn').addEventListener('click', function(){
+    const ans = {
+      q1: getValue('q1'),
+      q2: getValue('q2'),
+      q3: getValue('q3'),
+      q4: getValue('q4'),
+      q5: getValue('q5'),
+      q6: getValue('q6'),
+      q7: getValue('q7'),
+      q8: getValue('q8')
+    };
+
+    const missing = Object.keys(ans).filter(k => ans[k] === null);
+    if(missing.length){
+      alert('Veuillez répondre à toutes les questions avant de calculer.');
+      return;
+    }
+
+    const res = evaluate(ans);
+    renderResult(res);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    document.getElementById('samscore-form').reset();
+    const div = document.getElementById('result');
+    div.innerHTML = '';
+    div.className = '';
+  });
+})();
+</script>
